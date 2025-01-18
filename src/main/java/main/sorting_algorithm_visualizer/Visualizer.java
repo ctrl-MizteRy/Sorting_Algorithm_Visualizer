@@ -48,7 +48,7 @@ public class Visualizer extends Application {
     }
 
     /**
-     * This method create the top 5 buttons of sortings and pause.
+     * This method create the top 5 buttons of sorting and pause.
      * Each button will have its own event handling for each
      * @return : HBox Object
      */
@@ -317,10 +317,10 @@ public class Visualizer extends Application {
         int[] j = {steps.get(0)[1]};
         int[] start = {i[0]};
         int[] end = {j[0]};
-        ArrayList<Integer[]> copy_arr = new ArrayList<>();
-        copy_arr.add(Arrays.copyOfRange(arr, 0, 1));
+        ArrayList<Integer[]> sub_arr = new ArrayList<>();
+        sub_arr.add(Arrays.copyOfRange(arr, 0, 1));
         int[] sorted_array_start = {0};
-        Merged(copy_arr);
+        Merged(sub_arr);
         timeline = new Timeline(
                 new KeyFrame(Duration.millis(75), event -> {
                     if (reverse_total_step[0] > 0) {
@@ -330,7 +330,7 @@ public class Visualizer extends Application {
                     }
                     else if (current_step[0] < steps.size()) {
                         if (i[0] <= j[0]){
-                            Create_Merge_Graph(arr, copy_arr, sorted_array_start[0], j[0], i[0]);
+                            Create_Merge_Graph(arr, sub_arr, sorted_array_start[0], j[0], i[0]);
                             i[0]++;
                         }
                         else {
@@ -344,9 +344,9 @@ public class Visualizer extends Application {
                                 sorted_array_start[0] = i[0];
                                 Merged(arr, start[0], end[0]);
                                 Create_Merge_Graph(arr, start[0], end[0]);
-                                copy_arr.remove(0);
-                                copy_arr.add(Arrays.copyOfRange(arr, i[0], j[0] + 1));
-                                Merged(copy_arr);
+                                sub_arr.remove(0);
+                                sub_arr.add(Arrays.copyOfRange(arr, i[0], j[0] + 1));
+                                Merged(sub_arr);
                             }
                         }
                     }
@@ -361,7 +361,8 @@ public class Visualizer extends Application {
     }
 
     /**
-     *
+     * This will calculate the amount of subarrays that will need for to complete a merge sort.
+     * Although return is void, it will add the sub array into steps by add the index position of each subarray, start and end on each int array of steps
      */
     private void Get_Steps(ArrayList<int[]> steps, int start, int end){
         int mid = (start + end)/2;
@@ -375,6 +376,9 @@ public class Visualizer extends Application {
         }
     }
 
+    /**
+     * This work the same as Get_Steps but in reverse, I just need this to help with the animation for the beginning of the merge sort visualizer
+     */
     private void Get_Steps_Reverse(ArrayList<int[]> steps, int start, int end){
         int mid = (start + end)/2;
         if (end - start == 0){
@@ -387,11 +391,17 @@ public class Visualizer extends Application {
         }
     }
 
+    /**
+     * Get the int array and pass it to the "Merge" method
+     */
     private void Merged(ArrayList<Integer[]> list){
         Integer[] arr = list.get(0);
         Merged(arr, 0, arr.length - 1);
     }
 
+    /**
+     * Although it called Merged, under the hood, it is just using a quick insertion sort to merge the sub array since the animation is working with 1 array instead of multiple subarray
+     */
     private void Merged(Integer[] arr, int start, int end){
         for (int i = start; i <= end; i++){
             int key = arr[i];
@@ -404,6 +414,9 @@ public class Visualizer extends Application {
         }
     }
 
+    /**
+     * Create the graph with Crimson being the section of subarray that being focus on and overlay each step with the sorted position of the subarray
+     */
     private void Create_Merge_Graph(Integer[] arr, ArrayList<Integer[]> list, int start, int end, int current_pos){
         Integer[] copy_arr_sorted = list.get(0);
         Remove_Stack(pane);
@@ -426,6 +439,9 @@ public class Visualizer extends Application {
         Add_Graph(graph);
     }
 
+    /**
+     * Visualizing dividing the graph into each smaller subarray graph with the Crimson color
+     */
     private void Create_Merge_Graph(Integer[] numbers, int start, int end){
         Remove_Stack(pane);
         HBox graph = new HBox(2);
@@ -443,6 +459,9 @@ public class Visualizer extends Application {
         Add_Graph(graph);
     }
 
+    /**
+     * Create a graph with Crimson color being the color that is being focus on and shifting to the right for the bubble sort algorithm
+     */
     private void Create_Graph(Integer[] numbers, int target){
         Remove_Stack(pane);
         HBox graph = new HBox(2);
@@ -460,6 +479,10 @@ public class Visualizer extends Application {
         Add_Graph(graph);
     }
 
+    /**
+     * This have the same idea as the other Create_Graph but with 2 different Crimson color column that can now be use for both selection sort to keep track of the smallest column
+     * And insertion sort for constantly comparing and shifting the column to the left for each position
+     */
     private void Create_Graph(Integer[] numbers , int switch1, int switch2){
         Remove_Stack(pane);
         HBox graph = new HBox(2);
@@ -480,6 +503,9 @@ public class Visualizer extends Application {
         Add_Graph(graph);
     }
 
+    /**
+     * This will be called after each Create Graph method to push it into the GUI so that we can see the change in graph
+     */
     private void Add_Graph( HBox graph){
         StackPane stackPane = new StackPane();
         stackPane.setAlignment(Pos.CENTER);
@@ -488,6 +514,9 @@ public class Visualizer extends Application {
         pane.getChildren().add(stackPane);
     }
 
+    /**
+     * This will be called at the beginning of every graph method to remove the StackPane method of Add_Graph so that we can now add a new graph into pone
+     */
     private void Remove_Stack(GridPane pane){
         for (Node node : pane.getChildren()){
             if (node instanceof StackPane){
