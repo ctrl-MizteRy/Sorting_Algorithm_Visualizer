@@ -197,7 +197,7 @@ public class Visualizer extends Application {
                 new KeyFrame(Duration.millis(75), event -> {
                     if (i[0] < n) {
                         if (j[0] < n - i[0] - 1) {
-                            Randomize_Graph(arr, arr[j[0]]);
+                            Create_Graph(arr, arr[j[0]]);
                             if (arr[j[0]] > arr[j[0] + 1]) {
                                 int temp = arr[j[0]];
                                 arr[j[0]] = arr[j[0] + 1];
@@ -232,7 +232,7 @@ public class Visualizer extends Application {
                 new KeyFrame(Duration.millis(75), event -> {
                     if (i[0] < n) {
                         if (j[0] >= 0 && arr[j[0]] > arr[key[0]]){
-                            Randomize_Graph(arr, arr[key[0]], arr[j[0]]);
+                            Create_Graph(arr, arr[key[0]], arr[j[0]]);
                             int temp = arr[key[0]];
                             arr[key[0]] = arr[j[0]];
                             arr[j[0]] = temp;
@@ -288,7 +288,7 @@ public class Visualizer extends Application {
                             }
                         }
                         if (j[0] < n){
-                            Randomize_Graph(arr, arr[min_indx[0]], arr[j[0]]);
+                            Create_Graph(arr, arr[min_indx[0]], arr[j[0]]);
                         }
                     }
                     else{
@@ -443,7 +443,7 @@ public class Visualizer extends Application {
         Add_Graph(graph);
     }
 
-    private void Randomize_Graph(Integer[] numbers, int target){
+    private void Create_Graph(Integer[] numbers, int target){
         Remove_Stack(pane);
         HBox graph = new HBox(2);
         graph.setAlignment(Pos.BOTTOM_CENTER);
@@ -460,7 +460,7 @@ public class Visualizer extends Application {
         Add_Graph(graph);
     }
 
-    private void Randomize_Graph(Integer[] numbers , int switch1, int switch2){
+    private void Create_Graph(Integer[] numbers , int switch1, int switch2){
         Remove_Stack(pane);
         HBox graph = new HBox(2);
         graph.setAlignment(Pos.BOTTOM_CENTER);
